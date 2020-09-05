@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:tutorial_startup_namer/random-words.dart';
+import 'package:tutorial_startup_namer/page-random-words.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Startup Name Generator',
-      home: RandomWords(),
+      theme: ThemeData(
+        primaryColor: Colors.blueGrey,
+      ),
+      home: PageRandomWords(),
     );
   }
 }
