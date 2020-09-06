@@ -1,14 +1,14 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorial_startup_namer/app-const.dart';
-import 'package:tutorial_startup_namer/page-favorite-words.dart';
+import 'package:tutorial_startup_namer/global-values.dart';
+import 'package:tutorial_startup_namer/page/favorite-words.page.dart';
 
-class PageRandomWords extends StatefulWidget {
+class RandomWordsPage extends StatefulWidget {
   @override
-  _PageRandomWordsState createState() => _PageRandomWordsState();
+  _RandomWordsPageState createState() => _RandomWordsPageState();
 }
 
-class _PageRandomWordsState extends State<PageRandomWords> {
+class _RandomWordsPageState extends State<RandomWordsPage> {
   final _suggestions = <WordPair>[];
 
   @override
@@ -16,15 +16,20 @@ class _PageRandomWordsState extends State<PageRandomWords> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: _pushSaved,
-          ),
-        ],
+        actions: _appBarActions(),
       ),
       body: _buildSuggestions(),
     );
+  }
+
+  List<Widget> _appBarActions() {
+    List<Widget> actions = [
+      IconButton(
+        icon: Icon(Icons.list),
+        onPressed: _pushSaved,
+      ),
+    ];
+    return actions;
   }
 
   Widget _buildSuggestions() {
@@ -42,7 +47,7 @@ class _PageRandomWordsState extends State<PageRandomWords> {
   }
 
   Widget _buildRow(WordPair pair) {
-    final alreadySaved = saved.contains(pair);
+    final alreadySaved = favoritesWordPair.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
@@ -55,9 +60,11 @@ class _PageRandomWordsState extends State<PageRandomWords> {
       onTap: () {
         setState(() {
           if (alreadySaved) {
-            saved.remove(pair);
+            favoritesWordPair.remove(pair);
+            favoritesStorage.removeFavorite(pair);
           } else {
-            saved.add(pair);
+            favoritesWordPair.add(pair);
+            favoritesStorage.saveFavorite(pair);
           }
         });
       },
@@ -67,7 +74,7 @@ class _PageRandomWordsState extends State<PageRandomWords> {
   void _pushSaved() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PageFavoriteWords()),
+      MaterialPageRoute(builder: (context) => FavoriteWordsPage()),
     );
   }
 }
