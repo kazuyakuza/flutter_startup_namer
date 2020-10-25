@@ -1,8 +1,10 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorial_startup_namer/service/favorite-storage.service.dart';
+import 'package:tutorial_startup_namer/model/start-up-idea.model.dart';
+import 'package:tutorial_startup_namer/service/idea-storage.service.dart';
 
-const biggerFont = TextStyle(fontSize: 18.0);
+const APP_TITLE = 'Startup Idea Generator';
 
-var favoritesWordPair = Set<WordPair>();
-var favoritesStorage = FavoriteStorageService();
+const BIGGER_FONT = TextStyle(fontSize: 18.0);
+
+final STORAGE = IdeaStorageService();
+Set<StartUpIdea> STORAGE_CACHE;

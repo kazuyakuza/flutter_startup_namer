@@ -1,7 +1,8 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorial_startup_namer/global-values.dart';
-import 'package:tutorial_startup_namer/page/favorite-words.page.dart';
+import 'package:tutorial_startup_namer/model/start-up-idea.model.dart';
+import 'package:tutorial_startup_namer/routes.dart';
 
 class RandomWordsPage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _RandomWordsPageState extends State<RandomWordsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text('Found a cool name!'),
         actions: _appBarActions(),
       ),
       body: _buildSuggestions(),
@@ -35,23 +36,25 @@ class _RandomWordsPageState extends State<RandomWordsPage> {
   Widget _buildSuggestions() {
     return ListView.builder(
         padding: EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
+        itemBuilder: (context, i) {
+          if (i.isOdd) return Divider();
 
-          final index = i ~/ 2; /*3*/
+          final index = i ~/ 2;
           if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+            _suggestions.addAll(generateWordPairs().take(10));
           }
           return _buildRow(_suggestions[index]);
         });
   }
 
   Widget _buildRow(WordPair pair) {
-    final alreadySaved = favoritesWordPair.contains(pair);
+    final alreadySaved = STORAGE_CACHE.firstWhere((StartUpIdea idea) =>
+            idea.getKey() == StartUpIdea.generateKeyFrom(pair)) !=
+        null;
     return ListTile(
       title: Text(
         pair.asPascalCase,
-        style: biggerFont,
+        style: BIGGER_FONT,
       ),
       trailing: Icon(
         alreadySaved ? Icons.favorite : Icons.favorite_border,
@@ -60,11 +63,14 @@ class _RandomWordsPageState extends State<RandomWordsPage> {
       onTap: () {
         setState(() {
           if (alreadySaved) {
-            favoritesWordPair.remove(pair);
-            favoritesStorage.removeFavorite(pair);
+            final _pairAsKey = StartUpIdea.generateKeyFrom(pair);
+            STORAGE_CACHE
+                .removeWhere((StartUpIdea idea) => idea.getKey() == _pairAsKey);
+            STORAGE.removeFavoriteByKey(_pairAsKey);
           } else {
-            favoritesWordPair.add(pair);
-            favoritesStorage.saveFavorite(pair);
+            final StartUpIdea idea = new StartUpIdea(pair);
+            STORAGE_CACHE.add(idea);
+            STORAGE.saveFavorite(idea);
           }
         });
       },
@@ -72,9 +78,6 @@ class _RandomWordsPageState extends State<RandomWordsPage> {
   }
 
   void _pushSaved() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => FavoriteWordsPage()),
-    );
+    Navigator.pushNamed(context, AppRoute.favoriteWords.asString());
   }
 }
