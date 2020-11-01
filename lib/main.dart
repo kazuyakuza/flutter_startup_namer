@@ -32,13 +32,13 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      initialRoute: STORAGE_CACHE.length > 0
+      initialRoute: STORAGE_CACHE.length == 0
           ? AppRoute.randomWords.asString()
-          : AppRoute.favoriteWords.asString(),
+          : AppRoute.favoriteStartupIdea.asString(),
       routes: <String, WidgetBuilder>{
         AppRoute.randomWords.asString(): (BuildContext context) =>
             RandomWordsPage(),
-        AppRoute.favoriteWords.asString(): (BuildContext context) =>
+        AppRoute.favoriteStartupIdea.asString(): (BuildContext context) =>
             FavoriteStartupIdeaPage(),
       },
     );

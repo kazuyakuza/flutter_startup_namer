@@ -1,12 +1,12 @@
 enum AppRoute {
   randomWords,
-  favoriteWords,
+  favoriteStartupIdea,
 }
 
 extension AppRouteValue on AppRoute {
   static const _values = {
     AppRoute.randomWords: '/random-words',
-    AppRoute.favoriteWords: '/favorite-words',
+    AppRoute.favoriteStartupIdea: '/favorite-startup-idea',
   };
 
   String asString() {
