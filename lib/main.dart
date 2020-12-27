@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_startup_namer/global-values.dart';
 import 'package:tutorial_startup_namer/page/favorite-startup-idea.page.dart';
+import 'package:tutorial_startup_namer/page/random-imgs.page.dart';
 import 'package:tutorial_startup_namer/page/random-words.page.dart';
 import 'package:tutorial_startup_namer/routes.dart';
 
@@ -32,14 +33,17 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      initialRoute: STORAGE_CACHE.length == 0
-          ? AppRoute.randomWords.asString()
-          : AppRoute.favoriteStartupIdea.asString(),
+      initialRoute: AppRoute.randomImgs.asString(),
+      // STORAGE_CACHE.length == 0
+      // ? AppRoute.randomWords.asString()
+      // : AppRoute.favoriteStartupIdea.asString(),
       routes: <String, WidgetBuilder>{
-        AppRoute.randomWords.asString(): (BuildContext context) =>
-            RandomWordsPage(),
         AppRoute.favoriteStartupIdea.asString(): (BuildContext context) =>
             FavoriteStartupIdeaPage(),
+        AppRoute.randomWords.asString(): (BuildContext context) =>
+            RandomWordsPage(),
+        AppRoute.randomImgs.asString(): (BuildContext context) =>
+            RandomImgsPage(),
       },
     );
   }

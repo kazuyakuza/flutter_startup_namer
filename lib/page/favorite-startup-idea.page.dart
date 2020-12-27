@@ -15,10 +15,22 @@ class _FavoriteStartupIdeaPageState extends State<FavoriteStartupIdeaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Saved Ideas'),
+        actions: _appBarActions(),
       ),
       body: _body(context),
     );
+  }
+
+  List<Widget> _appBarActions() {
+    List<Widget> actions = [
+      IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: _pushBack,
+      ),
+    ];
+    return actions;
   }
 
   _body(BuildContext context) {
@@ -65,5 +77,9 @@ class _FavoriteStartupIdeaPageState extends State<FavoriteStartupIdeaPage> {
             Navigator.pushNamed(context, AppRoute.randomWords.asString());
           }
         });
+  }
+
+  void _pushBack() {
+    Navigator.pushNamed(context, AppRoute.randomWords.asString());
   }
 }

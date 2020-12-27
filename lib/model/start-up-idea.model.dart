@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
-@JsonSerializable()
 class StartUpIdea {
   final WordPair _wordPair;
   WordPair get wordPair => _wordPair;
@@ -20,12 +18,12 @@ class StartUpIdea {
   }
 
   static StartUpIdea fromJson(String json) {
-    var parsedJson = jsonDecode(json);
-    debugPrint("typeof parsedJson: " + parsedJson.runtimeType.toString());
+    Map<String, dynamic> parsedJson = jsonDecode(json);
     try {
       return StartUpIdea(
-        WordPair(parsedJson.wordPair.first, parsedJson.wordPair.second),
-        img: parsedJson?.img,
+        WordPair(
+            parsedJson['wordPair']['first'], parsedJson['wordPair']['second']),
+        img: parsedJson['img'],
       );
     } catch (e) {
       debugPrint("exception: " + e.toString());
@@ -34,12 +32,9 @@ class StartUpIdea {
   }
 
   String toJson() {
-    return jsonEncode('''{
-"wordPair": {
-  "first": "${wordPair.first}",
-  "second": "${wordPair.second}"
-}
-}''');
+    return jsonEncode({
+      'wordPair': {'first': wordPair.first, 'second': wordPair.second}
+    });
     // TODO add img property
   }
 }

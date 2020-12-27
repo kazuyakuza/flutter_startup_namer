@@ -15,10 +15,10 @@ class _Suggestion {
   _Suggestion(this.wordPair, {bool saved}) : this.saved = saved;
   @override
   String toString() {
-    return '''{
-  "wordPair": $wordPair,
-  "saved": $saved,
-}''';
+    return {
+      'wordPair': wordPair.toString(),
+      'saved': saved.toString(),
+    }.toString();
   }
 }
 
@@ -29,6 +29,7 @@ class _RandomWordsPageState extends State<RandomWordsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Found a cool name!'),
         actions: _appBarActions(),
       ),
@@ -62,7 +63,6 @@ class _RandomWordsPageState extends State<RandomWordsPage> {
   }
 
   Widget _buildRow(_Suggestion suggestion) {
-    // debugPrint(suggestion.toString());
     if (suggestion.saved) {
       suggestion.saved = STORAGE_CACHE.firstWhere(
               (StartUpIdea idea) =>

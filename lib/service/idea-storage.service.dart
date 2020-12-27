@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_startup_namer/model/start-up-idea.model.dart';
 
@@ -29,7 +28,6 @@ class IdeaStorageService {
 
   Set<StartUpIdea> loadFavorties() {
     final Set<String> _keys = _storage.getKeys();
-    debugPrint("_keys: " + _keys.toString());
     if (_keys.length > 0) {
       Set<StartUpIdea> _values = new Set<StartUpIdea>();
       StartUpIdea _startUpIdea;
